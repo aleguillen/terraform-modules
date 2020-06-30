@@ -50,7 +50,9 @@ variable "vnet_address_space" {
 variable "vnet_subnets_names" {
   type        = list(string)
   description = "(Optional) The list of of subnets in the VNet."
-  default = []
+  default = [
+
+  ]
 }
 
 variable "vnet_subnets_newbits" {
