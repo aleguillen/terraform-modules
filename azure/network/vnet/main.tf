@@ -58,6 +58,23 @@ resource "azurerm_subnet" "this" {
 
   service_endpoints = length(local.subnets[count.index].service_endpoints) > 0 ? local.subnets[count.index].service_endpoints : null
 
+  dynamic "delegation" {
+    for_each = local.subnets[count.index].delegations 
+
+    content {
+      name = local.subnets[count.index].delegations.name
+      
+      dynamic "service_delegation" {
+        for_each = local.subnets[count.index].delegations.service_delegation
+          
+        content {
+          name    = local.subnets[count.index].delegations.service_delegation.name
+          actions = local.subnets[count.index].delegations.service_delegation.actions
+        }
+      }
+    }
+  }
+
 }
 
 data "azurerm_subnet" "this" {

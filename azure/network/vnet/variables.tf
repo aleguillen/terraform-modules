@@ -85,6 +85,18 @@ variable "vnet_subnet_service_endpoints" {
   default = []
 }
 
+variable "vnet_subnet_delegations" {
+  type        = list(object({
+    name = string
+    service_delegation = object({
+      name = string
+      actions = list(string)
+    })
+  }))
+  description = "(Optional) One or more delegation blocks as defined below."
+  default = []
+}
+
 #################################
 # Complex Subnets Configuration #
 #################################
@@ -102,6 +114,13 @@ variable "vnet_subnets" {
     enforce_private_link_endpoint_network_policies = bool
     enforce_private_link_service_network_policies = bool
     service_endpoints = list(string)
+    delegations = list(object({
+      name = string
+      service_delegation = object({
+        name = string
+        actions = list(string)
+      })
+    }))
   }))
   description = "(Optional) The list of of subnets in the VNet."
   default = []
